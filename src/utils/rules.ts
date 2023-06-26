@@ -27,11 +27,11 @@ export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
 
     maxLength: {
       value: 160,
-      message: "Độ dài từ 6 -160 ký tự!!!"
+      message: "Độ dài từ 6 -160 ký !!!"
     },
     minLength: {
       value: 6,
-      message: "Độ dài từ 6 -160 ký tự"
+      message: "Độ dài từ 6 -160 ký tự!!!"
     }
   },
   confirm_password: {
