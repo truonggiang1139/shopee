@@ -1,15 +1,16 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { getRules } from "src/utils/rules";
-
+import { loginSchema, LoginSchema } from "src/utils/rules";
+import { yupResolver } from "@hookform/resolvers/yup/dist/yup.js";
 export default function Login() {
   const {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm();
-  const rules = getRules();
+  } = useForm<LoginSchema>({
+    resolver: yupResolver(loginSchema)
+  });
   const onSubmit = handleSubmit((data) => {
     console.log(data);
   });

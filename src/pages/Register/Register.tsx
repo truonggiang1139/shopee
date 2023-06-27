@@ -2,24 +2,19 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import Input from "src/components/Input";
-import { getRules } from "src/utils/rules";
-
-interface iFormData {
-  email: string;
-  password: string;
-  confirm_password: string;
-}
+import { schema, Schema } from "src/utils/rules";
+import { yupResolver } from "@hookform/resolvers/yup";
 export default function Register() {
   const {
     register,
     handleSubmit,
-    getValues,
     formState: { errors }
-  } = useForm<iFormData>();
+  } = useForm<Schema>({
+    resolver: yupResolver(schema)
+  });
   const onSubmit = handleSubmit((data) => {
     console.log(data);
   });
-  const rules = getRules(getValues);
   return (
     <div className="bg-orange">
       <div className="custom container">
@@ -34,7 +29,6 @@ export default function Register() {
                 className="mt-8"
                 errorMessage={errors.email?.message}
                 placeholder="Email"
-                rules={rules.email}
               />
 
               <Input
@@ -44,7 +38,6 @@ export default function Register() {
                 className="mt-2"
                 errorMessage={errors.password?.message}
                 placeholder="Password"
-                rules={rules.password}
               />
               <Input
                 name="confirm_password"
@@ -53,7 +46,6 @@ export default function Register() {
                 className="mt-2"
                 errorMessage={errors.confirm_password?.message}
                 placeholder="Confirm Password"
-                rules={rules.confirm_password}
               />
               <div className="mt-2">
                 <button
