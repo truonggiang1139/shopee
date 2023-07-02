@@ -3,16 +3,38 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { loginSchema, LoginSchema } from "src/utils/rules";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup.js";
+import Input from "src/components/Input";
+import { useMutation } from "@tanstack/react-query";
+import { loginAccount } from "src/apis/auth.api";
+import { isAxiosUnprocessableEntityError } from "src/utils/utils";
+import { ResponseApi } from "src/types/utils.type";
+import { toast } from "react-toastify";
+type FormData = LoginSchema;
 export default function Login() {
   const {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<LoginSchema>({
+  } = useForm<FormData>({
     resolver: yupResolver(loginSchema)
   });
+  const loginAccountMutation = useMutation({
+    mutationFn: (body: FormData) => loginAccount(body)
+  });
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
+    loginAccountMutation.mutate(data, {
+      onSuccess: (data) => {
+        console.log(data);
+      },
+      onError: (error) => {
+        if (isAxiosUnprocessableEntityError<ResponseApi<FormData>>(error)) {
+          const formError = error.response?.data.data;
+          if (formError?.password) {
+            toast.error(formError.password);
+          }
+        }
+      }
+    });
   });
   return (
     <div className="bg-orange">
@@ -21,31 +43,30 @@ export default function Login() {
           <div className="lg:col-span-2 lg:col-start-4">
             <form className="rounded bg-white p-10 shadow-sm" onSubmit={onSubmit} noValidate>
               <div className="text-2xl">Đăng ký</div>
-              <div className="mt-8">
-                <input
-                  type="email"
-                  className="w-full rounded-sm border border-gray-300 p-3 outline-none focus:border-gray-500 focus:shadow-sm"
-                  placeholder="Email"
-                  {...register("email", rules.email)}
-                />
-                <div className="mt-1 min-h-[1.25rem] text-sm text-red-600"></div>
-              </div>
-              <div className="mt-2">
-                <input
-                  type="password"
-                  className="w-full rounded-sm border border-gray-300 p-3 outline-none focus:border-gray-500 focus:shadow-sm"
-                  placeholder="Password"
-                  {...register("password", rules.password)}
-                />
-                <div className="mt-1 min-h-[1.25rem] text-sm text-red-600"></div>
-              </div>
+              <Input
+                name="email"
+                register={register}
+                type="email"
+                className="mt-8"
+                errorMessage={errors.email?.message}
+                placeholder="Email"
+              />
+
+              <Input
+                name="password"
+                register={register}
+                type="password"
+                className="mt-2"
+                errorMessage={errors.password?.message}
+                placeholder="Password"
+              />
 
               <div className="mt-2">
                 <button
                   type="submit"
                   className="flex  w-full items-center justify-center bg-red-500 px-2 py-4 text-sm uppercase text-white hover:bg-red-600"
                 >
-                  Đăng ký
+                  Đăng nhập
                 </button>
               </div>
               <div className="mt-8 flex items-center justify-center">

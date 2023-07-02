@@ -4,16 +4,40 @@ import { Link } from "react-router-dom";
 import Input from "src/components/Input";
 import { schema, Schema } from "src/utils/rules";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useMutation } from "@tanstack/react-query";
+import { omit } from "lodash";
+import { registerAccount } from "src/apis/auth.api";
+import { isAxiosUnprocessableEntityError } from "src/utils/utils";
+import { ResponseApi } from "src/types/utils.type";
+import { toast } from "react-toastify";
+type FormData = Schema;
 export default function Register() {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors }
-  } = useForm<Schema>({
+  } = useForm<FormData>({
     resolver: yupResolver(schema)
   });
+  const registerAccountMutation = useMutation({
+    mutationFn: (body: Omit<FormData, "confirm_password">) => registerAccount(body)
+  });
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
+    const body = omit(data, ["confirm_password"]);
+    registerAccountMutation.mutate(body, {
+      onSuccess: (data) => {
+        console.log(data);
+      },
+      onError: (error) => {
+        if (isAxiosUnprocessableEntityError<ResponseApi<Omit<FormData, "confirm_password">>>(error)) {
+          const formError = error.response?.data.data;
+          if (formError?.email) {
+            toast.error(formError.email);
+          }
+        }
+      }
+    });
   });
   return (
     <div className="bg-orange">
