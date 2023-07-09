@@ -1,5 +1,10 @@
 import React from "react";
+import Header from "src/components/Header";
 
 export default function ProductList() {
-  return <div>ProductList</div>;
+  return (
+    <div>
+      <Header />
+    </div>
+  );
 }

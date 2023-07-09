@@ -74,14 +74,14 @@ export default function Register() {
               <div className="mt-2">
                 <button
                   type="submit"
-                  className="flex  w-full items-center justify-center bg-red-500 px-2 py-4 text-sm uppercase text-white hover:bg-red-600"
+                  className="flex  w-full items-center justify-center bg-crimson px-2 py-4 text-sm uppercase text-white hover:opacity-90"
                 >
                   Đăng ký
                 </button>
               </div>
               <div className="mt-8 flex items-center justify-center">
                 <span className="text-gray-400">Bạn đã có tài khoản?</span>
-                <Link className="ml-1 text-red-400" to="/login">
+                <Link className="ml-1 text-crimson" to="/login">
                   Đăng nhập
                 </Link>
               </div>
