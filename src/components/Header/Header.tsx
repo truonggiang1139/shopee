@@ -1,11 +1,48 @@
 import { Link } from "react-router-dom";
-
+import { useRef, useState } from "react";
+import {
+  useFloating,
+  FloatingPortal,
+  arrow,
+  shift,
+  offset,
+  type Placement,
+  flip,
+  autoUpdate,
+  useHover,
+  useFocus,
+  useDismiss,
+  useRole,
+  useInteractions,
+  safePolygon,
+  FloatingArrow
+} from "@floating-ui/react";
+import { motion, AnimatePresence } from "framer-motion";
 export default function Header() {
+  const [isOpen, setIsOpen] = useState(false);
+  const arrowRef = useRef(null);
+  const { refs, floatingStyles, context, middlewareData } = useFloating({
+    open: isOpen,
+    onOpenChange: setIsOpen,
+    middleware: [offset(10), flip(), shift(), arrow({ element: arrowRef })],
+    whileElementsMounted: autoUpdate,
+    transform: false
+  });
+  const hover = useHover(context, { handleClose: safePolygon() });
+  const focus = useFocus(context);
+  const dismiss = useDismiss(context);
+  const role = useRole(context, { role: "tooltip" });
+
+  const { getReferenceProps, getFloatingProps } = useInteractions([hover, focus, dismiss, role]);
   return (
     <div className="bg-crimson pb-5 pt-2 text-white">
       <div className="container">
         <div className="flex justify-end">
-          <div className="flex cursor-pointer items-center py-1 hover:text-gray-300">
+          <div
+            className="flex cursor-pointer items-center py-1 hover:text-gray-300"
+            ref={refs.setReference}
+            {...getReferenceProps()}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -21,6 +58,7 @@ export default function Header() {
               />
             </svg>
             <span className="mx-1">Tiếng Việt</span>
+
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -31,7 +69,34 @@ export default function Header() {
             >
               <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
             </svg>
+            <FloatingPortal>
+              <AnimatePresence>
+                {isOpen && (
+                  <motion.div
+                    ref={refs.setFloating}
+                    style={{
+                      transformOrigin: `${middlewareData.arrow?.x} top`,
+                      ...floatingStyles
+                    }}
+                    {...getFloatingProps()}
+                    initial={{ opacity: 0, transform: `scale(0)` }}
+                    animate={{ opacity: 1, transform: `scale(1)` }}
+                    exit={{ opacity: 0, transform: `scale(0)` }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <div className="relative rounded-sm  bg-white shadow-md">
+                      <div className="flex flex-col px-3 py-2">
+                        <button className="px-3 py-2 hover:text-crimson">Tiếng Việt</button>
+                        <button className="px-3 py-2 hover:text-crimson">English</button>
+                      </div>
+                      <FloatingArrow ref={arrowRef} context={context} width={22} height={10} fill="white" />
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </FloatingPortal>
           </div>
+
           <div className="flex cursor-pointer items-center py-1 hover:text-gray-300">
             <div className="ml-4 mr-1 h-6 w-6 flex-shrink-0">
               <img
