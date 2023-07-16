@@ -19,6 +19,7 @@
     "@tanstack/react-query-devtools": "^4.29.19",
     "axios": "^1.4.0",
     "framer-motion": "^10.12.18",
+    "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -28,6 +29,7 @@
     "yup": "^1.2.0"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.3",
     "@types/lodash": "^4.14.195",
     "@types/node": "^20.2.5",
     "@types/react": "^18.0.37",

@@ -1,14 +1,16 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loginSchema, LoginSchema } from "src/utils/rules";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup.js";
 import Input from "src/components/Input";
 import { useMutation } from "@tanstack/react-query";
 import { loginAccount } from "src/apis/auth.api";
 import { isAxiosUnprocessableEntityError } from "src/utils/utils";
-import { ResponseApi } from "src/types/utils.type";
+import { ErrorResponse } from "src/types/utils.type";
 import { toast } from "react-toastify";
+import CustomButton from "src/components/CustomButton";
+import { path } from "src/utils/constants";
 type FormData = LoginSchema;
 export default function Login() {
   const {
@@ -18,16 +20,17 @@ export default function Login() {
   } = useForm<FormData>({
     resolver: yupResolver(loginSchema)
   });
+  const navigate = useNavigate();
   const loginAccountMutation = useMutation({
     mutationFn: (body: FormData) => loginAccount(body)
   });
   const onSubmit = handleSubmit((data) => {
     loginAccountMutation.mutate(data, {
-      onSuccess: (data) => {
-        console.log(data);
+      onSuccess: () => {
+        navigate("/");
       },
       onError: (error) => {
-        if (isAxiosUnprocessableEntityError<ResponseApi<FormData>>(error)) {
+        if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {
           const formError = error.response?.data.data;
           if (formError?.password) {
             toast.error(formError.password);
@@ -61,17 +64,19 @@ export default function Login() {
                 placeholder="Password"
               />
 
-              <div className="mt-2">
-                <button
+              <div className="mt-3">
+                <CustomButton
                   type="submit"
-                  className="flex  w-full items-center justify-center bg-crimson px-2 py-4 text-sm uppercase text-white hover:opacity-90"
+                  className=" flex w-full items-center justify-center bg-crimson px-2 py-4 text-sm uppercase text-white hover:opacity-90"
+                  isLoading={loginAccountMutation.isLoading}
+                  disabled={loginAccountMutation.isLoading}
                 >
                   Đăng nhập
-                </button>
+                </CustomButton>
               </div>
               <div className="mt-8 flex items-center justify-center">
                 <span className="text-gray-400">Bạn chưa có tài khoản?</span>
-                <Link className="ml-1 text-crimson" to="/register">
+                <Link className="ml-1 text-crimson" to={path.register}>
                   Đăng ký
                 </Link>
               </div>

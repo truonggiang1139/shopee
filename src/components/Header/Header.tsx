@@ -1,112 +1,99 @@
 import { Link } from "react-router-dom";
-import { useRef, useState } from "react";
-import {
-  useFloating,
-  FloatingPortal,
-  arrow,
-  shift,
-  offset,
-  type Placement,
-  flip,
-  autoUpdate,
-  useHover,
-  useFocus,
-  useDismiss,
-  useRole,
-  useInteractions,
-  safePolygon,
-  FloatingArrow
-} from "@floating-ui/react";
-import { motion, AnimatePresence } from "framer-motion";
+import Popover from "../Popover";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { getProfile, logoutAccount } from "src/apis/auth.api";
+import Cookies from "js-cookie";
+import { ACCESS_TOKEN_KEY } from "src/utils/constants";
+import axios from "axios";
+import { array } from "yup";
 export default function Header() {
-  const [isOpen, setIsOpen] = useState(false);
-  const arrowRef = useRef(null);
-  const { refs, floatingStyles, context, middlewareData } = useFloating({
-    open: isOpen,
-    onOpenChange: setIsOpen,
-    middleware: [offset(10), flip(), shift(), arrow({ element: arrowRef })],
-    whileElementsMounted: autoUpdate,
-    transform: false
+  const { data } = useQuery({
+    queryKey: ["profile"],
+    queryFn: getProfile
   });
-  const hover = useHover(context, { handleClose: safePolygon() });
-  const focus = useFocus(context);
-  const dismiss = useDismiss(context);
-  const role = useRole(context, { role: "tooltip" });
-
-  const { getReferenceProps, getFloatingProps } = useInteractions([hover, focus, dismiss, role]);
+  const logoutMutation = useMutation({
+    mutationFn: logoutAccount,
+    onSuccess: () => {
+      Cookies.remove(ACCESS_TOKEN_KEY);
+    }
+  });
+  const handleLogout = () => {
+    logoutMutation.mutate();
+  };
   return (
     <div className="bg-crimson pb-5 pt-2 text-white">
       <div className="container">
         <div className="flex justify-end">
-          <div
-            className="flex cursor-pointer items-center py-1 hover:text-gray-300"
-            ref={refs.setReference}
-            {...getReferenceProps()}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="h-5 w-5"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"
-              />
-            </svg>
-            <span className="mx-1">Tiếng Việt</span>
+          <Popover
+            title={
+              <>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="h-5 w-5"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"
+                  />
+                </svg>
+                <span className="mx-1">Tiếng Việt</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="h-5 w-5"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                </svg>
+              </>
+            }
+            renderPopover={
+              <div className="relative flex flex-col rounded-sm bg-white py-2 pl-3 pr-24 shadow-md">
+                <button className="px-3 py-2 hover:text-crimson ">Tiếng Việt</button>
+                <button className="px-3 py-2 hover:text-crimson">English</button>
+              </div>
+            }
+          />
 
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="h-5 w-5"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-            </svg>
-            <FloatingPortal>
-              <AnimatePresence>
-                {isOpen && (
-                  <motion.div
-                    ref={refs.setFloating}
-                    style={{
-                      transformOrigin: `${middlewareData.arrow?.x} top`,
-                      ...floatingStyles
-                    }}
-                    {...getFloatingProps()}
-                    initial={{ opacity: 0, transform: `scale(0)` }}
-                    animate={{ opacity: 1, transform: `scale(1)` }}
-                    exit={{ opacity: 0, transform: `scale(0)` }}
-                    transition={{ duration: 0.2 }}
+          <Popover
+            title={
+              <>
+                <div className="ml-4 mr-1 h-6 w-6 flex-shrink-0">
+                  <img
+                    src="https://img.freepik.com/free-photo/red-white-cat-i-white-studio_155003-13189.jpg?w=2000"
+                    alt=""
+                    className="h-full w-full rounded-full object-cover"
+                  />
+                </div>
+                <div>{data?.data.data.email}</div>
+              </>
+            }
+            renderPopover={
+              <div className="relative rounded-sm  bg-white shadow-md">
+                <div className="flex flex-col px-3 py-2">
+                  <Link to="/" className="px-3 py-3 text-left hover:bg-[#fafafa] hover:text-[#00bfa5]">
+                    Tài khoản của tôi
+                  </Link>
+                  <Link to="/" className="px-3 py-3 text-left hover:bg-[#fafafa] hover:text-[#00bfa5]">
+                    Đơn mua
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="px-3 py-3 text-left hover:bg-[#fafafa] hover:text-[#00bfa5]"
                   >
-                    <div className="relative rounded-sm  bg-white shadow-md">
-                      <div className="flex flex-col px-3 py-2">
-                        <button className="px-3 py-2 hover:text-crimson">Tiếng Việt</button>
-                        <button className="px-3 py-2 hover:text-crimson">English</button>
-                      </div>
-                      <FloatingArrow ref={arrowRef} context={context} width={22} height={10} fill="white" />
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </FloatingPortal>
-          </div>
-
-          <div className="flex cursor-pointer items-center py-1 hover:text-gray-300">
-            <div className="ml-4 mr-1 h-6 w-6 flex-shrink-0">
-              <img
-                src="https://img.freepik.com/free-photo/red-white-cat-i-white-studio_155003-13189.jpg?w=2000"
-                alt=""
-                className="h-full w-full rounded-full object-cover"
-              />
-            </div>
-            <div>truonggiang</div>
-          </div>
+                    Đăng xuất
+                  </button>
+                </div>
+              </div>
+            }
+          />
         </div>
         <div className="mt-4 grid grid-cols-12 items-end gap-4">
           <Link to="/" className="col-span-2">
@@ -141,23 +128,78 @@ export default function Header() {
               </button>
             </div>
           </form>
-          <div className="cols-span-1">
-            <Link to="/" className="">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="h-8 w-8"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
-                />
-              </svg>
-            </Link>
+          <div className="col-span-1 justify-self-end">
+            <Popover
+              title={
+                <Link to="/">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="h-8 w-8"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+                    />
+                  </svg>
+                </Link>
+              }
+              renderPopover={
+                <div className="relative max-w-[400px]  rounded-sm   bg-white text-sm shadow-md">
+                  <div className="p-2">
+                    <div className="capitalize text-gray-400">Sản phẩm mới thêm</div>
+                    <div className="mt-5">
+                      <div className="mt-4 flex">
+                        <div className="flex-shrink-0">
+                          <img
+                            src="https://down-vn.img.susercontent.com/file/vn-11134207-7qukw-lfup348s7eju08_tn"
+                            alt=""
+                            className="h-11 w-11 object-cover"
+                          />
+                        </div>
+                        <div className="ml-2 flex-grow overflow-hidden">
+                          <div className="truncate">
+                            Tấm Mouse feet chuột Logitech G502 G403 G603 G703 G102 GPRO G903 G304 G305 GPro Wireless
+                            G300/300s MX Master MX Anywhere
+                          </div>
+                        </div>
+                        <div className="ml-2 flex-shrink-0">
+                          <span className="text-crimson">₫10.000</span>
+                        </div>
+                      </div>
+                      <div className="mt-4 flex">
+                        <div className="flex-shrink-0">
+                          <img
+                            src="https://down-vn.img.susercontent.com/file/vn-11134207-7qukw-lfup348s7eju08_tn"
+                            alt=""
+                            className="h-11 w-11 object-cover"
+                          />
+                        </div>
+                        <div className="ml-2 flex-grow overflow-hidden">
+                          <div className="truncate">
+                            Tấm Mouse feet chuột Logitech G502 G403 G603 G703 G102 GPRO G903 G304 G305 GPro Wireless
+                            G300/300s MX Master MX Anywhere
+                          </div>
+                        </div>
+                        <div className="ml-2 flex-shrink-0">
+                          <span className="text-crimson">₫10.000</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mt-6 flex items-center justify-between">
+                      <div className="text-xs capitalize text-gray-500">Thêm hàng vào giỏ</div>
+                      <button className="rounded-sm bg-crimson px-4 py-2 capitalize text-white hover:bg-opacity-90">
+                        Xem giỏ hàng
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              }
+            />
           </div>
         </div>
       </div>
