@@ -1,6 +1,7 @@
 import React from "react";
 import AsideFilter from "./AsideFilter";
 import SortProductList from "./SortProductList";
+import Product from "./Product";
 
 export default function ProductList() {
   return (
@@ -12,7 +13,9 @@ export default function ProductList() {
           </div>
           <div className="col-span-9">
             <SortProductList />
-            <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"></div>
+            <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+              <Product />
+            </div>
           </div>
         </div>
       </div>

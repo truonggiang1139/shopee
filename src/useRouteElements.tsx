@@ -20,16 +20,16 @@ export default function useRouteElements() {
   const routeElements = useRoutes([
     {
       path: "",
-      element: (
-        <MainLayout>
-          <ProductList />
-        </MainLayout>
-      )
-    },
-    {
-      path: "",
       element: <ProtectedRoute />,
       children: [
+        {
+          path: path.home,
+          element: (
+            <MainLayout>
+              <ProductList />
+            </MainLayout>
+          )
+        },
         {
           path: path.profile,
           element: <ProductList />

@@ -87,6 +87,10 @@ export default function AsideFilter() {
           </CustomButton>
         </form>
       </div>
+      <div className="my-4 h-[1px] bg-gray-300"></div>
+      <CustomButton className="hover:bg-crimson-90 mt-4 flex w-full items-center justify-center bg-crimson p-2 text-sm uppercase text-white">
+        Xóa tất cả
+      </CustomButton>
     </div>
   );
 }
