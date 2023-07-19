@@ -22,10 +22,10 @@ export default function ProductList() {
           </div>
           <div className="col-span-9">
             <SortProductList />
-            <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            <div className="mt-6 flex flex-row flex-wrap gap-3 ">
               {data &&
                 data.data.data.products.map((product) => (
-                  <div className="col-span 1" key={product._id}>
+                  <div className="max-w-[176px] " key={product._id}>
                     <Product product={product} />
                   </div>
                 ))}
