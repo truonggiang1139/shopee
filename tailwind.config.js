@@ -10,6 +10,9 @@ module.exports = {
     extend: {
       colors: {
         crimson: "#C92127"
+      },
+      boxShadow: {
+        product: "rgba(0, 0, 0, 0.1) 0px 0px 20px"
       }
     }
   },
@@ -24,7 +27,6 @@ module.exports = {
           paddingRight: theme("spacing.4")
         }
       });
-    }),
-    require("@tailwindcss/line-clamp")
+    })
   ]
 };

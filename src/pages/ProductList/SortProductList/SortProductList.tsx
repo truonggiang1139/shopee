@@ -2,26 +2,24 @@ import React from "react";
 
 export default function SortProductList() {
   return (
-    <div className="bg-gray-300/40 px-3 py-4">
+    <div className="bg-white p-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex flex-wrap items-center gap-2">
-          <div>Sắp xếp theo</div>
-          <button className="h-8 bg-crimson px-4 text-center text-sm capitalize text-white hover:bg-crimson/80">
+          <button className="h-8 rounded-md border border-crimson px-4  text-center text-sm capitalize  text-crimson hover:text-crimson">
             Phổ biến
           </button>
-          <button className="h-8 bg-white px-4 text-center text-sm capitalize text-black hover:bg-slate-100">
+          <button className="h-8  px-4 text-center text-sm capitalize text-[#646464]  hover:text-crimson ">
             Mới nhất
           </button>
-          <button className="h-8 bg-white px-4 text-center text-sm capitalize text-black hover:bg-slate-100">
+          <button className="h-8  px-4 text-center text-sm capitalize text-[#646464]  hover:text-crimson">
             Bán chạy
           </button>
-          <select className="h-8 bg-white px-4 text-left text-sm capitalize text-black outline-none hover:bg-slate-100">
-            <option value="" hidden>
-              Giá
-            </option>
-            <option value="price:asc">Giá:Thấp đến cao</option>
-            <option value="price:desc">Giá:Cao đến thấp</option>
-          </select>
+          <button className="h-8  px-4 text-center text-sm capitalize text-[#646464]  hover:text-crimson">
+            Giá Thấp Đến Cao
+          </button>
+          <button className="h-8  px-4 text-center text-sm capitalize text-[#646464] hover:text-crimson">
+            Giá Cao Đến Thấp
+          </button>
         </div>
         <div className="flex items-center">
           <div>

@@ -9,7 +9,7 @@ interface IProductProps {
 export default function Product({ product }: IProductProps) {
   return (
     <Link to="/">
-      <div className="rounded-sm bg-white  shadow transition-transform duration-100 hover:translate-y-[-0.0625rem] hover:shadow-md">
+      <div className="rounded-sm bg-white  hover:shadow-product">
         <div className="relative w-full pt-[100%]">
           <img
             src={product.image}
@@ -18,7 +18,7 @@ export default function Product({ product }: IProductProps) {
           />
         </div>
         <div className="overflow-hidden p-2 text-xs">
-          <div className="min-h-[2rem]  line-clamp-2 ">{product.name}</div>
+          <div className="line-clamp-2  min-h-[2rem] ">{product.name}</div>
           <div className="mt-3 flex items-center">
             <div className="ml-1 truncate text-crimson">
               <span>₫</span>
