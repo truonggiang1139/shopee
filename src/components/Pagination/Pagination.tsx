@@ -1,14 +1,17 @@
 import classNames from "classnames";
 import React from "react";
+import { Link, createSearchParams } from "react-router-dom";
+import { QueryConfigType } from "src/types/product.types";
+import { path } from "src/utils/constants";
 
 interface Props {
-  page: number;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
+  queryConfig: QueryConfigType;
   pageSize: number;
 }
 const RANGE = 2;
 const FIRST_PAGE = 1;
-export default function Pagination({ page, setPage, pageSize }: Props) {
+export default function Pagination({ queryConfig, pageSize }: Props) {
+  const page = Number(queryConfig.page);
   const renderPagination = () => {
     let dotAfter = false;
     let dotBefore = false;
@@ -16,7 +19,7 @@ export default function Pagination({ page, setPage, pageSize }: Props) {
       if (!dotAfter) {
         dotAfter = true;
         return (
-          <div key={index} className="mx-2  px-3 py-2 ">
+          <span key={index} className="mx-2  px-3 py-2 ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -31,7 +34,7 @@ export default function Pagination({ page, setPage, pageSize }: Props) {
                 d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
               />
             </svg>
-          </div>
+          </span>
         );
       }
       return;
@@ -40,7 +43,7 @@ export default function Pagination({ page, setPage, pageSize }: Props) {
       if (!dotBefore) {
         dotBefore = true;
         return (
-          <div key={index} className="mx-2  px-3 py-2 ">
+          <span key={index} className="mx-2  px-3 py-2 ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -55,7 +58,7 @@ export default function Pagination({ page, setPage, pageSize }: Props) {
                 d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
               />
             </svg>
-          </div>
+          </span>
         );
       }
       return;
@@ -76,15 +79,24 @@ export default function Pagination({ page, setPage, pageSize }: Props) {
           }
         }
         return (
-          <button
+          <Link
+            to={{
+              pathname: path.home,
+              search: createSearchParams({
+                ...queryConfig,
+                page: pageNumber.toString()
+              }).toString()
+            }}
             key={index}
-            className={classNames("mx-2 h-9 w-10 rounded text-gray-500 hover:bg-red-200", {
-              "bg-crimson text-white ": pageNumber === page
-            })}
-            onClick={() => setPage(pageNumber)}
+            className={classNames(
+              "mx-2 flex h-9 w-10 items-center justify-center rounded text-gray-500 hover:bg-red-200",
+              {
+                "bg-crimson text-white ": pageNumber === page
+              }
+            )}
           >
             {pageNumber}
-          </button>
+          </Link>
         );
       });
   };
@@ -92,7 +104,6 @@ export default function Pagination({ page, setPage, pageSize }: Props) {
     <div className="mt-6 flex flex-wrap justify-center">
       <button
         disabled={page === FIRST_PAGE}
-        onClick={() => setPage((prev) => prev - 1)}
         className={classNames("mx-2 flex h-9 w-10 items-center justify-center rounded  text-gray-500 ", {
           "stroke-gray-300": page === FIRST_PAGE,
           "stroke-gray-700 hover:bg-red-200": page !== FIRST_PAGE
@@ -105,7 +116,6 @@ export default function Pagination({ page, setPage, pageSize }: Props) {
       {renderPagination()}
       <button
         disabled={page === pageSize}
-        onClick={() => setPage((prev) => prev + 1)}
         className={classNames("mx-2 flex h-9 w-10 items-center justify-center rounded  text-gray-500 ", {
           "stroke-gray-300": page === pageSize,
           "stroke-gray-700 hover:bg-red-200": page !== pageSize
