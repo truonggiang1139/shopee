@@ -1,8 +1,7 @@
-import React from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "src/components/Input";
-import { schema, Schema } from "src/utils/rules";
+import { registerSchema, RegisterSchema } from "src/utils/rules";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
 import { omit } from "lodash";
@@ -12,7 +11,7 @@ import { ErrorResponse } from "src/types/utils.type";
 import { toast } from "react-toastify";
 import CustomButton from "src/components/CustomButton";
 import { path } from "src/utils/constants";
-type FormData = Schema;
+type FormData = RegisterSchema;
 export default function Register() {
   const {
     register,
@@ -20,7 +19,7 @@ export default function Register() {
     setError,
     formState: { errors }
   } = useForm<FormData>({
-    resolver: yupResolver(schema)
+    resolver: yupResolver(registerSchema)
   });
   const navigate = useNavigate();
   const registerAccountMutation = useMutation({

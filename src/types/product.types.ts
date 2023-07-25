@@ -33,6 +33,7 @@ export interface IProductListConfig {
   price_max?: number;
   price_min?: number;
   name?: string;
+  category?: string;
 }
 export type QueryConfigType = {
   [key in keyof IProductListConfig]: string;
