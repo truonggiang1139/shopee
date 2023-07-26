@@ -9,7 +9,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        crimson: "#C92127"
+        crimson: "#C92127",
+        outline: "#f5f5fa"
       },
       boxShadow: {
         product: "rgba(0, 0, 0, 0.1) 0px 0px 20px"

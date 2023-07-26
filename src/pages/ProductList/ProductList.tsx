@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import AsideFilter from "./AsideFilter";
-import SortProductList from "./SortProductList";
-import Product from "./Product";
+import AsideFilter from "./components/AsideFilter";
+import SortProductList from "./components/SortProductList";
+import Product from "./components/Product";
 import { useQuery } from "@tanstack/react-query";
 import useQueryParams from "src/hooks/useQueryParams";
 import { getProducts } from "src/apis/product.api";
@@ -36,7 +35,7 @@ export default function ProductList() {
     queryFn: () => getCategories()
   });
   return (
-    <div className="bg-[#f5f5fa] py-6">
+    <div className="bg-outline py-6">
       <div className="container">
         {dataProducts && (
           <div className="grid grid-cols-12 gap-6">

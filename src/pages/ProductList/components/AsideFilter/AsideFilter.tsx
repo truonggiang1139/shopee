@@ -1,5 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import classNames from "classnames";
+import { omit } from "lodash";
 import { Controller, useForm } from "react-hook-form";
 import { Link, createSearchParams, useNavigate } from "react-router-dom";
 import CustomButton from "src/components/CustomButton";
@@ -21,6 +22,7 @@ export default function AsideFilter({ queryConfig, categories }: Props) {
     control,
     handleSubmit,
     trigger,
+    reset,
     formState: { errors }
   } = useForm<FormData>({
     defaultValues: {
@@ -41,6 +43,13 @@ export default function AsideFilter({ queryConfig, categories }: Props) {
       }).toString()
     });
   });
+  const handleRemoveFilter = () => {
+    reset();
+    navigate({
+      pathname: path.home,
+      search: createSearchParams(omit(queryConfig, ["price_max", "price_min", "category"])).toString()
+    });
+  };
   return (
     <div className="py-4">
       <Link to={path.home} className="flex items-center font-bold">
@@ -160,7 +169,10 @@ export default function AsideFilter({ queryConfig, categories }: Props) {
         </form>
       </div>
       <div className="my-4 h-[1px] bg-gray-300"></div>
-      <CustomButton className="hover:bg-crimson-90 mt-4 flex w-full items-center justify-center bg-crimson p-2 text-sm uppercase text-white">
+      <CustomButton
+        className="hover:bg-crimson-90 mt-4 flex w-full items-center justify-center bg-crimson p-2 text-sm uppercase text-white"
+        onClick={handleRemoveFilter}
+      >
         Xóa tất cả
       </CustomButton>
     </div>

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { IProduct } from "src/types/product.types";
+import { path } from "src/utils/constants";
 import { formatCurrency, formatNumberToSocialStyle } from "src/utils/utils";
 
 interface IProductProps {
@@ -8,7 +9,7 @@ interface IProductProps {
 }
 export default function Product({ product }: IProductProps) {
   return (
-    <Link to="/">
+    <Link to={`${path.home}${product._id}`}>
       <div className="rounded-sm bg-white  hover:shadow-product">
         <div className="relative w-full pt-[100%]">
           <img

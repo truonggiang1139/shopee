@@ -6,6 +6,7 @@ import RegisterLayout from "./layouts/RegisterLayout";
 import Cookies from "js-cookie";
 import { ACCESS_TOKEN_KEY, path } from "./utils/constants";
 import MainLayout from "./layouts/MainLayout";
+import ProductDetail from "./pages/ProductDetail";
 
 function ProtectedRoute() {
   const isAuthenticated = Cookies.get(ACCESS_TOKEN_KEY);
@@ -32,7 +33,19 @@ export default function useRouteElements() {
         },
         {
           path: path.profile,
-          element: <ProductList />
+          element: (
+            <MainLayout>
+              <ProductList />
+            </MainLayout>
+          )
+        },
+        {
+          path: path.productDetail,
+          element: (
+            <MainLayout>
+              <ProductDetail />
+            </MainLayout>
+          )
         }
       ]
     },
