@@ -21,9 +21,15 @@ export default function Product({ product }: IProductProps) {
         <div className="overflow-hidden p-2 text-xs">
           <div className="line-clamp-2  min-h-[2rem] ">{product.name}</div>
           <div className="mt-3 flex items-center">
-            <div className="ml-1 truncate text-crimson">
+            <div className="ml-1 truncate text-crimson ">
               <span>₫</span>
               <span className="text-base">{formatCurrency(product.price)}</span>
+            </div>
+          </div>
+          <div className="flex items-center">
+            <div className="ml-1 truncate text-gray-400 line-through">
+              <span>₫</span>
+              <span className="text-xs  ">{formatCurrency(product.price_before_discount)}</span>
             </div>
           </div>
           <div className="mt-3 flex items-center">

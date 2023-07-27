@@ -22,3 +22,6 @@ export function formatNumberToSocialStyle(value: number) {
     .replace(".", ",")
     .toLowerCase();
 }
+export function formatPercent(value: number) {
+  return new Intl.NumberFormat("en", { style: "percent" }).format(value);
+}
