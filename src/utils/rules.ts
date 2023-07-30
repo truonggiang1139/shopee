@@ -34,11 +34,14 @@ export const schema = yup.object({
     name: "price-not-allowed",
     message: "Giá không phù hợp",
     test: checkMinMaxPrice
-  })
+  }),
+  search: yup.string().trim()
 });
 export const loginSchema = schema.omit(["confirm_password", "price_max", "price_min"]);
 export const registerSchema = schema.omit(["price_max", "price_min"]);
 export const rangePriceSchema = schema.pick(["price_max", "price_min"]);
+export const searchSchema = schema.pick(["search"]);
 export type LoginSchema = yup.InferType<typeof loginSchema>;
 export type RegisterSchema = yup.InferType<typeof registerSchema>;
 export type RangePriceSchema = yup.InferType<typeof rangePriceSchema>;
+export type SearchSchema = yup.InferType<typeof searchSchema>;

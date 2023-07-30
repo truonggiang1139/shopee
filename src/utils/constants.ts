@@ -6,7 +6,7 @@ export const path = {
   login: "/login",
   register: "/register",
   logout: "/logout",
-  productDetail: ":id"
+  productDetail: ":nameId"
 } as const;
 
 export const sortBy = {
@@ -19,4 +19,14 @@ export const sortBy = {
 export const order = {
   asc: "asc",
   desc: "desc"
+} as const;
+
+export const purchaseStatus = {
+  inCart: -1,
+  all: 0,
+  waitForConfirmation: 1,
+  waitForGetting: 2,
+  inProgress: 3,
+  delivered: 4,
+  cancelled: 5
 } as const;

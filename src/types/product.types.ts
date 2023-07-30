@@ -1,3 +1,5 @@
+import { ICategory } from "./category.type";
+
 export interface IProduct {
   _id: string;
   images: string[];
@@ -9,7 +11,7 @@ export interface IProduct {
   view: number;
   name: string;
   description: string;
-  category: string;
+  category: ICategory;
   image: string;
   createdAt: string;
   updatedAt: string;
