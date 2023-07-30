@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import DOMPurify from "dompurify";
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -7,7 +7,8 @@ import { getProductDetail, getProducts } from "src/apis/product.api";
 import { IProduct } from "src/types/product.types";
 import { formatCurrency, formatNumberToSocialStyle, formatPercent, getIdFromNameId } from "src/utils/utils";
 import QuantityController from "src/components/QuantityController";
-import { addToCart } from "src/apis/purchase.api";
+import { addToCart, getPurchases } from "src/apis/purchase.api";
+import { purchaseStatus } from "src/utils/constants";
 export default function ProductDetail() {
   const [buyCount, setBuyCount] = useState(1);
   const { nameId } = useParams();
@@ -34,6 +35,7 @@ export default function ProductDetail() {
     [product, currentIndexImageList]
   );
   const queryConfig = { limit: 12, page: 1, category: product?.category._id };
+  const queryClient = useQueryClient();
 
   const addProductToCart = useMutation({
     mutationFn: addToCart
@@ -61,7 +63,14 @@ export default function ProductDetail() {
     setBuyCount(value);
   };
   const handleAddToCart = () => {
-    addProductToCart.mutate({ product_id: product?._id as string, buy_count: buyCount });
+    addProductToCart.mutate(
+      { product_id: product?._id as string, buy_count: buyCount },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ["purchases", { status: purchaseStatus.inCart }] });
+        }
+      }
+    );
   };
   if (!product) return;
   return (

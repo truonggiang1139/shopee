@@ -13,6 +13,7 @@ import { ObjectSchema } from "yup";
 import { getPurchases } from "src/apis/purchase.api";
 import { formatCurrency } from "src/utils/utils";
 
+const MAX_PURCHASES = 5;
 export default function Header() {
   const queryConfig = useQueryConfig();
   const { register, handleSubmit } = useForm<SearchSchema>({
@@ -30,7 +31,7 @@ export default function Header() {
     queryKey: ["purchases", { status: purchaseStatus.inCart }],
     queryFn: () => getPurchases({ status: purchaseStatus.inCart })
   });
-  const purchasesInCart = undefined;
+  const purchasesInCart = dataPurchaseInCart?.data.data;
   const logoutMutation = useMutation({
     mutationFn: logoutAccount,
     onSuccess: () => {
@@ -188,30 +189,36 @@ export default function Header() {
                 </Link>
               }
               renderPopover={
-                <div className="relative max-w-[400px]  rounded-sm   bg-white text-sm shadow-md">
+                <div className="relative  max-w-[400px]  rounded-sm   bg-white text-sm shadow-md">
                   {purchasesInCart ? (
-                    <div className="p-2">
+                    <div className="p-2 ">
                       <div className="capitalize text-gray-400">Sản phẩm mới thêm</div>
-                      <div className="mt-5"></div>
-                      {purchasesInCart.map((purchase) => (
-                        <div className="mt-4 flex" key={purchase._id}>
-                          <div className="flex-shrink-0">
-                            <img
-                              src={purchase.product.image}
-                              alt={purchase.product.name}
-                              className="h-11 w-11 object-cover"
-                            />
+                      <div className="mt-5">
+                        {purchasesInCart.slice(0, 5).map((purchase) => (
+                          <div className="mt-2 flex py-2 hover:bg-gray-50" key={purchase._id}>
+                            <div className="flex-shrink-0">
+                              <img
+                                src={purchase.product.image}
+                                alt={purchase.product.name}
+                                className="h-11 w-11 object-cover"
+                              />
+                            </div>
+                            <div className="ml-2 flex-grow overflow-hidden">
+                              <div className="truncate">{purchase.product.name}</div>
+                            </div>
+                            <div className="ml-2 flex-shrink-0">
+                              <span className="text-crimson">₫{formatCurrency(purchase.product.price)}</span>
+                            </div>
                           </div>
-                          <div className="ml-2 flex-grow overflow-hidden">
-                            <div className="truncate">{purchase.product.name}</div>
-                          </div>
-                          <div className="ml-2 flex-shrink-0">
-                            <span className="text-crimson">₫{formatCurrency(purchase.product.price)}</span>
-                          </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                       <div className="mt-6 flex items-center justify-between">
-                        <div className="text-xs capitalize text-gray-500">Thêm hàng vào giỏ</div>
+                        <div className="text-xs capitalize text-gray-500">
+                          {purchasesInCart.length > MAX_PURCHASES
+                            ? `${purchasesInCart.length - MAX_PURCHASES} Thêm hàng vào giỏ`
+                            : ""}
+                        </div>
+
                         <button className="rounded-sm bg-crimson px-4 py-2 capitalize text-white hover:bg-opacity-90">
                           Xem giỏ hàng
                         </button>
