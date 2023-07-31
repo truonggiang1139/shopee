@@ -9,6 +9,7 @@ import { formatCurrency, formatNumberToSocialStyle, formatPercent, getIdFromName
 import QuantityController from "src/components/QuantityController";
 import { addToCart, getPurchases } from "src/apis/purchase.api";
 import { purchaseStatus } from "src/utils/constants";
+import { toast } from "react-toastify";
 export default function ProductDetail() {
   const [buyCount, setBuyCount] = useState(1);
   const { nameId } = useParams();
@@ -67,6 +68,7 @@ export default function ProductDetail() {
       { product_id: product?._id as string, buy_count: buyCount },
       {
         onSuccess: () => {
+          toast.success("Thêm vào giỏ hàng thành công!");
           queryClient.invalidateQueries({ queryKey: ["purchases", { status: purchaseStatus.inCart }] });
         }
       }
