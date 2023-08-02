@@ -3,9 +3,18 @@ import InputNumber from "../InputNumber";
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   maxQuantity?: number;
-  onChangeBuyCount: (value: number) => void;
+  onChangeBuyCount?: (value: number) => void;
+  classBtn: string;
+  classInput: string;
 }
-export default function QuantityController({ maxQuantity, onChangeBuyCount, value, ...rest }: Props) {
+export default function QuantityController({
+  classBtn,
+  classInput,
+  maxQuantity,
+  onChangeBuyCount,
+  value,
+  ...rest
+}: Props) {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let valueQuantity = Number(event.target.value);
     if (maxQuantity !== undefined && valueQuantity > maxQuantity) {
@@ -31,9 +40,9 @@ export default function QuantityController({ maxQuantity, onChangeBuyCount, valu
     onChangeBuyCount && onChangeBuyCount(valueQuantity);
   };
   return (
-    <div className="ml-10 flex items-center">
+    <div className="flex items-center">
       <button
-        className="flex h-8 w-8 items-center justify-center rounded-l border border-r-0 border-gray-300 text-gray-600"
+        className={`flex  items-center justify-center rounded-l border border-r-0 border-gray-300 text-gray-600 ${classBtn}`}
         onClick={decreaseQuantity}
       >
         <svg
@@ -50,10 +59,10 @@ export default function QuantityController({ maxQuantity, onChangeBuyCount, valu
       <InputNumber
         value={value}
         onChange={handleChange}
-        className="h-8 w-14 border-b border-t border-gray-300 p-1 text-center font-semibold outline-none"
+        className={` border-b border-t border-gray-300 p-1 text-center font-semibold outline-none ${classInput}`}
       />
       <button
-        className="flex h-8 w-8 items-center justify-center rounded-r border border-l-0 border-gray-300 text-gray-600"
+        className={`flex  items-center justify-center rounded-r border border-l-0 border-gray-300 text-gray-600 ${classBtn}`}
         onClick={increaseQuantity}
       >
         <svg
