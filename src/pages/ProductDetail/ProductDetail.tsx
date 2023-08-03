@@ -2,12 +2,12 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import DOMPurify from "dompurify";
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getProductDetail, getProducts } from "src/apis/product.api";
+import { getProductDetail } from "src/apis/product.api";
 
 import { IProduct } from "src/types/product.types";
 import { formatCurrency, formatNumberToSocialStyle, formatPercent, getIdFromNameId } from "src/utils/utils";
 import QuantityController from "src/components/QuantityController";
-import { addToCart, getPurchases } from "src/apis/purchase.api";
+import { addToCart } from "src/apis/purchase.api";
 import { purchaseStatus } from "src/utils/constants";
 import { toast } from "react-toastify";
 export default function ProductDetail() {
@@ -18,16 +18,6 @@ export default function ProductDetail() {
     queryKey: ["productDetail", id],
     queryFn: () => getProductDetail(id as string)
   });
-  const settings = {
-    className: "slider variable-width",
-    dots: false,
-    infinite: false,
-    arrows: false,
-    draggable: false,
-    speed: 500,
-    slidesToShow: 6,
-    slidesToScroll: 1
-  };
   const [currentIndexImageList, setCurrentIndexImageList] = useState([0, 5]);
   const [activeImg, setActiveImg] = useState("");
   const product = productDetailData?.data.data;
@@ -35,9 +25,7 @@ export default function ProductDetail() {
     () => (product ? product?.images.slice(...currentIndexImageList) : []),
     [product, currentIndexImageList]
   );
-  const queryConfig = { limit: 12, page: 1, category: product?.category._id };
   const queryClient = useQueryClient();
-
   const addProductToCart = useMutation({
     mutationFn: addToCart
   });

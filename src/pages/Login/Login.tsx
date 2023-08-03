@@ -11,6 +11,7 @@ import { ErrorResponse } from "src/types/utils.type";
 import { toast } from "react-toastify";
 import CustomButton from "src/components/CustomButton";
 import { path } from "src/utils/constants";
+import { ObjectSchema } from "yup";
 type FormData = LoginSchema;
 export default function Login() {
   const {
@@ -18,7 +19,7 @@ export default function Login() {
     handleSubmit,
     formState: { errors }
   } = useForm<FormData>({
-    resolver: yupResolver(loginSchema)
+    resolver: yupResolver<LoginSchema>(loginSchema as ObjectSchema<LoginSchema>)
   });
   const navigate = useNavigate();
   const loginAccountMutation = useMutation({

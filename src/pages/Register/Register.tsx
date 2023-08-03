@@ -11,15 +11,15 @@ import { ErrorResponse } from "src/types/utils.type";
 import { toast } from "react-toastify";
 import CustomButton from "src/components/CustomButton";
 import { path } from "src/utils/constants";
+import { ObjectSchema } from "yup";
 type FormData = RegisterSchema;
 export default function Register() {
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors }
   } = useForm<FormData>({
-    resolver: yupResolver(registerSchema)
+    resolver: yupResolver<RegisterSchema>(registerSchema as ObjectSchema<RegisterSchema>)
   });
   const navigate = useNavigate();
   const registerAccountMutation = useMutation({

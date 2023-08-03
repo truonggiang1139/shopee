@@ -1,5 +1,4 @@
 import classNames from "classnames";
-import React from "react";
 import { Link, createSearchParams } from "react-router-dom";
 import { QueryConfigType } from "src/types/product.types";
 import { path } from "src/utils/constants";
