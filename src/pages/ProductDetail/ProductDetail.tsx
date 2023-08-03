@@ -154,7 +154,7 @@ export default function ProductDetail() {
                 </div>
               </div>
               <div className="mt-10 flex items-center">
-                <div className="capitalize text-gray-500">Số lượng</div>
+                <div className="mr-10 capitalize text-gray-500">Số lượng</div>
                 <QuantityController
                   onChangeBuyCount={handleBuyCount}
                   value={buyCount}

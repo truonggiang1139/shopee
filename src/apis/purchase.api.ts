@@ -7,11 +7,11 @@ export const addToCart = (body: { product_id: string; buy_count: number }) =>
 export const getPurchases = (params: { status: PurchaseListStatusType }) =>
   http.get<SuccessResponse<IPurchase[]>>("purchases", { params });
 
-export const updatePurchases = (body: { product_id: string; buy_count: number }) =>
+export const updatePurchase = (body: { product_id: string; buy_count: number }) =>
   http.put<SuccessResponse<IPurchase>>("purchases/update-purchase", body);
 
-export const deletePurchases = (purchasesIds: string[]) =>
-  http.delete<SuccessResponse<{ deleted_count: number }>>("purchases/delete-purchase", { data: purchasesIds });
+export const deletePurchase = (purchasesIds: string[]) =>
+  http.delete<SuccessResponse<{ deleted_count: number }>>("purchases", { data: purchasesIds });
 
 export const buyProducts = (body: { product_id: string; buy_count: number }[]) =>
   http.post<SuccessResponse<IPurchase[]>>("purchases/buy-products", body);

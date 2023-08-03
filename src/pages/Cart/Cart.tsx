@@ -2,8 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getPurchases, updatePurchases } from "src/apis/purchase.api";
-import CustomButton from "src/components/CustomButton";
+import { deletePurchase, getPurchases, updatePurchase } from "src/apis/purchase.api";
 import QuantityController from "src/components/QuantityController";
 import { IPurchase } from "src/types/purchase.type";
 import { path, purchaseStatus } from "src/utils/constants";
@@ -20,7 +19,10 @@ export default function Cart() {
     queryFn: () => getPurchases({ status: purchaseStatus.inCart })
   });
   const updatePurchaseMutation = useMutation({
-    mutationFn: updatePurchases
+    mutationFn: updatePurchase
+  });
+  const deletePurchaseMutation = useMutation({
+    mutationFn: deletePurchase
   });
   const purchasesInCart = dataPurchaseInCart?.data.data;
   useEffect(() => {
@@ -55,6 +57,27 @@ export default function Cart() {
       return prev.map((item) => (item._id === purchase._id ? { ...item, disabled: false, buy_count: value } : item));
     });
   };
+  const handleRemoveFromCart = (purchaseId: string) => {
+    deletePurchaseMutation.mutate([purchaseId]);
+  };
+  const getTotalNumberInCart = () => {
+    let counter = 0;
+    extendedPurchases.forEach((purchase) => (purchase.checked ? counter++ : ""));
+    return counter;
+  };
+  const getTotalPriceInCart = () => {
+    let total = 0;
+    extendedPurchases.forEach((purchase) => (purchase.checked ? (total += purchase.price * purchase.buy_count) : ""));
+    return total;
+  };
+  const getTotalPriceBeforeDiscount = () => {
+    let total = 0;
+    extendedPurchases.forEach((purchase) =>
+      purchase.checked ? (total += purchase.price_before_discount * purchase.buy_count) : ""
+    );
+    return total - getTotalPriceInCart();
+  };
+
   if (!purchasesInCart) return;
   return (
     <div className="bg-outline py-16">
@@ -140,7 +163,7 @@ export default function Cart() {
                     <div className="text-base font-bold text-crimson">{formatCurrency(purchase.product.price)}đ</div>
                   </div>
                   <div className=" flex basis-[10%] items-center justify-center">
-                    <button>
+                    <button onClick={() => handleRemoveFromCart(purchase._id)}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -175,15 +198,17 @@ export default function Cart() {
               <div className="mt-5 flex flex-col sm:ml-auto sm:mt-0 sm:flex-row sm:items-center">
                 <div>
                   <div className="flex items-center sm:justify-end">
-                    <div>Tổng thanh toán (1 sản phẩm):</div>
-                    <div className="text-orange ml-2 text-2xl">₫{formatCurrency(1)}</div>
+                    <div>Tổng thanh toán ({getTotalNumberInCart()} sản phẩm):</div>
+                    <div className="ml-2 text-2xl text-crimson">₫{formatCurrency(getTotalPriceInCart())}</div>
                   </div>
-                  <div className="flex items-center text-sm sm:justify-end">
-                    <div className="text-gray-500">Tiết kiệm</div>
-                    <div className="text-orange ml-6">₫{formatCurrency(1)}</div>
-                  </div>
+                  {!!getTotalNumberInCart() && (
+                    <div className="flex items-center text-sm sm:justify-end">
+                      <div className="text-gray-500">Tiết kiệm</div>
+                      <div className="ml-6 text-crimson">₫{formatCurrency(getTotalPriceBeforeDiscount())}</div>
+                    </div>
+                  )}
                 </div>
-                <button className="mt-5 flex h-10 w-52 items-center justify-center bg-crimson text-sm uppercase text-white hover:bg-crimson/90 sm:ml-4 sm:mt-0">
+                <button className="mt-5 flex h-10 w-52 items-center justify-center rounded bg-crimson text-sm uppercase text-white hover:bg-crimson/90 sm:ml-4 sm:mt-0">
                   Mua hàng
                 </button>
               </div>
