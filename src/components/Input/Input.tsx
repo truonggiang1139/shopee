@@ -1,5 +1,5 @@
-import  { InputHTMLAttributes } from "react";
-import type {  UseFormRegister } from "react-hook-form";
+import { InputHTMLAttributes } from "react";
+import type { UseFormRegister } from "react-hook-form";
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   errorMessage?: string;
   name: string;

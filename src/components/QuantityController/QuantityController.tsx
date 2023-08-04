@@ -3,7 +3,10 @@ import InputNumber from "../InputNumber";
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   maxQuantity?: number;
-  onChangeBuyCount?: (value: number) => void;
+  onIncrease?: (value: number) => void;
+  onDecrease?: (value: number) => void;
+  onType?: (value: number) => void;
+  onFocusOut?: (value: number) => void;
   classBtn: string;
   classInput: string;
 }
@@ -11,7 +14,10 @@ export default function QuantityController({
   classBtn,
   classInput,
   maxQuantity,
-  onChangeBuyCount,
+  onFocusOut,
+  onIncrease,
+  onDecrease,
+  onType,
   value,
   ...rest
 }: Props) {
@@ -22,14 +28,14 @@ export default function QuantityController({
     } else if (valueQuantity < 1) {
       valueQuantity = 1;
     }
-    onChangeBuyCount && onChangeBuyCount(valueQuantity);
+    onType && onType(valueQuantity);
   };
   const increaseQuantity = () => {
     let valueQuantity = Number(value) + 1;
     if (maxQuantity !== undefined && valueQuantity > maxQuantity) {
       valueQuantity = maxQuantity;
     }
-    onChangeBuyCount && onChangeBuyCount(valueQuantity);
+    onIncrease && onIncrease(valueQuantity);
   };
 
   const decreaseQuantity = () => {
@@ -37,7 +43,10 @@ export default function QuantityController({
     if (valueQuantity < 1) {
       valueQuantity = 1;
     }
-    onChangeBuyCount && onChangeBuyCount(valueQuantity);
+    onDecrease && onDecrease(valueQuantity);
+  };
+  const handleBlur = (event: React.FocusEvent<HTMLInputElement, Element>) => {
+    onFocusOut && onFocusOut(Number(event.target.value));
   };
   return (
     <div className="flex items-center">
@@ -59,6 +68,7 @@ export default function QuantityController({
       <InputNumber
         value={value}
         onChange={handleChange}
+        onBlur={handleBlur}
         className={` border-b border-t border-gray-300 p-1 text-center font-semibold outline-none ${classInput}`}
       />
       <button
