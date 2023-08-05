@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import classNames from "classnames";
 import { keyBy } from "lodash";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { buyProducts, deletePurchase, getPurchases, updatePurchase } from "src/apis/purchase.api";
@@ -16,11 +16,7 @@ interface IExtenedPurchases extends IPurchase {
 }
 export default function Cart() {
   const [extendedPurchases, setExtendedPurchases] = useState<IExtenedPurchases[]>([]);
-  const {
-    data: dataPurchaseInCart,
-    refetch,
-    isFetching
-  } = useQuery({
+  const { data: dataPurchaseInCart, refetch } = useQuery({
     queryKey: ["purchases", { status: purchaseStatus.inCart }],
     queryFn: () => getPurchases({ status: purchaseStatus.inCart })
   });

@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { IProduct } from "src/types/product.types";
 import { path } from "src/utils/constants";

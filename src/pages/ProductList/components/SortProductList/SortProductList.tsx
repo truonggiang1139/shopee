@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import { omit } from "lodash";
-import React from "react";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { IProductListConfig, QueryConfigType } from "src/types/product.types";
 import { order as orderCostant, path, sortBy } from "src/utils/constants";

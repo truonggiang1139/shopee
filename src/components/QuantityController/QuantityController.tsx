@@ -18,8 +18,7 @@ export default function QuantityController({
   onIncrease,
   onDecrease,
   onType,
-  value,
-  ...rest
+  value
 }: Props) {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let valueQuantity = Number(event.target.value);

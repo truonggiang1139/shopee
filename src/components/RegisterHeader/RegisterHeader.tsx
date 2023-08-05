@@ -1,6 +1,4 @@
-import React from "react";
 import { Link, useMatch } from "react-router-dom";
-import { ReactComponent as ShopeeLogo } from "../../assets/shopeeLogo.svg";
 export default function RegisterHeader() {
   const registerMatch = useMatch("/register");
   const isRegister = Boolean(registerMatch);
