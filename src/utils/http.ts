@@ -38,6 +38,7 @@ class Http {
         return response;
       },
       (error) => {
+        Cookies.remove(ACCESS_TOKEN_KEY);
         return Promise.reject(error);
       }
     );
