@@ -111,10 +111,13 @@ export default function Header() {
             renderPopover={
               <div className="relative rounded-sm  bg-white shadow-md">
                 <div className="flex flex-col px-3 py-2">
-                  <Link to="/" className="px-3 py-3 text-left hover:bg-[#fafafa] hover:text-[#00bfa5]">
+                  <Link to={path.profile} className="px-3 py-3 text-left hover:bg-[#fafafa] hover:text-[#00bfa5]">
                     Tài khoản của tôi
                   </Link>
-                  <Link to="/" className="px-3 py-3 text-left hover:bg-[#fafafa] hover:text-[#00bfa5]">
+                  <Link
+                    to={path.historyPurchase}
+                    className="px-3 py-3 text-left hover:bg-[#fafafa] hover:text-[#00bfa5]"
+                  >
                     Đơn mua
                   </Link>
                   <button

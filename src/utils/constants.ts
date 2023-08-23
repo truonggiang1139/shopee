@@ -2,7 +2,10 @@ export const ACCESS_TOKEN_KEY = "token";
 
 export const path = {
   home: "/",
-  profile: "/profile",
+  user: "/user",
+  profile: "/user/profile",
+  changePassword: "user/password/edit",
+  historyPurchase: "/user/history/purchase",
   login: "/login",
   register: "/register",
   logout: "/logout",
