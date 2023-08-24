@@ -7,6 +7,8 @@ function checkMinMaxPrice(this: yup.TestContext<yup.AnyObject>) {
   }
   return price_min !== "" || price_max !== "";
 }
+const phoneRegExp =
+  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 export const schema = yup.object({
   email: yup
     .string()
@@ -37,6 +39,15 @@ export const schema = yup.object({
   }),
   search: yup.string().trim()
 });
+export const userSchema = yup.object({
+  name: yup.string().required("Vui lòng nhập tên").max(160, "Độ dài từ 5 -160 ký tự"),
+  phone: yup
+    .string()
+    .required("Vui long nhap sdt")
+    .matches(phoneRegExp, "Số điện thoại không hợp lệ")
+    .max(20, "Độ dài dưới 20 ký tự"),
+  address: yup.string().required("vui long nhap dia chi").max(160, "Độ dài từ 5 -160 ký tự")
+});
 export const loginSchema = schema.omit(["confirm_password", "price_max", "price_min"]);
 export const registerSchema = schema.omit(["price_max", "price_min"]);
 export const rangePriceSchema = schema.pick(["price_max", "price_min"]);
@@ -45,3 +56,4 @@ export type LoginSchema = yup.InferType<typeof loginSchema>;
 export type RegisterSchema = yup.InferType<typeof registerSchema>;
 export type RangePriceSchema = yup.InferType<typeof rangePriceSchema>;
 export type SearchSchema = yup.InferType<typeof searchSchema>;
+export type UserSchema = yup.InferType<typeof userSchema>;
