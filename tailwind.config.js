@@ -10,7 +10,8 @@ module.exports = {
     extend: {
       colors: {
         crimson: "#C92127",
-        outline: "#f5f5fa"
+        outline: "#f5f5fa",
+        navSelected: "#ebebf0"
       },
       boxShadow: {
         product: "rgba(0, 0, 0, 0.1) 0px 0px 20px"
