@@ -1,12 +1,11 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { IBody, getProfile, updateProfile } from "src/apis/user.api";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { UserSchema, userSchema } from "src/utils/rules";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ObjectSchema } from "yup";
 import Input from "src/components/Input";
-import InputNumber from "src/components/InputNumber";
 export default function Profile() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { data } = useQuery({
@@ -21,25 +20,13 @@ export default function Profile() {
   const {
     register,
     handleSubmit,
-    control,
-    setValue,
     formState: { errors }
   } = useForm<UserSchema>({
-    defaultValues: {
-      name: "",
-      phone: "",
-      address: "",
-      avatar: "",
-      date_of_birth: new Date(1990, 0, 1)
-    },
     resolver: yupResolver<UserSchema>(userSchema as ObjectSchema<UserSchema>)
   });
 
   const onSubmit = handleSubmit((data) => {
-    userMutation.mutate(data, {
-      onSuccess: () => {},
-      onError: (error) => {}
-    });
+    console.log(data);
   });
   const handleSelectImage = () => {
     if (fileInputRef.current) {
@@ -47,15 +34,6 @@ export default function Profile() {
     }
   };
 
-  useEffect(() => {
-    if (userData) {
-      setValue("name", userData.name);
-      setValue("phone", userData.phone);
-      setValue("address", userData.address);
-      setValue("avatar", userData.avatar);
-      setValue("date_of_birth", userData.date_of_birth ? new Date(userData.date_of_birth) : new Date(1990, 0, 1));
-    }
-  }, [setValue, userData]);
   if (!userData) return;
   return (
     <div className="rounded-sm bg-white px-2 pb-10 shadow md:px-7 md:pb-20">
@@ -73,13 +51,13 @@ export default function Profile() {
           <div className="mt-3 flex flex-col flex-wrap sm:flex-row">
             <div className="truncate pt-3 capitalize sm:w-[20%] sm:text-right">Tên</div>
             <div className="sm:w-[80%] sm:pl-5 ">
-              <Input name="name" register={register} errorMessage={errors.name?.message} />
+              <Input value={userData.name} name="name" register={register} errorMessage={errors.name?.message} />
             </div>
           </div>
           <div className="mt-2 flex flex-col flex-wrap sm:flex-row">
             <div className="truncate pt-3 capitalize sm:w-[20%] sm:text-right">Số điện thoại</div>
             <div className="sm:w-[80%] sm:pl-5 ">
-              <Input name="phone" register={register} errorMessage={errors.name?.message} />
+              <Input name="phone" register={register} errorMessage={errors.phone?.message} />
             </div>
           </div>
           <div className="mt-2 flex flex-col flex-wrap sm:flex-row">

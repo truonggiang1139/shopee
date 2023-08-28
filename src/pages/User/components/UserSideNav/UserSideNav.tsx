@@ -15,7 +15,7 @@ export default function UserSideNav() {
         </div>
         <div className="flex-grow pl-4">
           <div className="mb-2 font-extralight">Tài khoản của</div>
-          <div className="mb-1 truncate text-base font-semibold">cdthanh</div>
+          <div className="mb-1 truncate text-base font-semibold">abc</div>
         </div>
       </div>
       <div className="mt-4">
