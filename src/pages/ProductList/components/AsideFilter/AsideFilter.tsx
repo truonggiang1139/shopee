@@ -130,6 +130,7 @@ export default function AsideFilter({ queryConfig, categories }: Props) {
                   <InputNumber
                     type="text"
                     name="from"
+                    classNameInput="w-full rounded-sm border border-gray-300 p-2 text-xs outline-none"
                     placeholder="₫ TỪ"
                     onChange={(event) => {
                       field.onChange(event);

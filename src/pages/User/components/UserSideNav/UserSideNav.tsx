@@ -1,8 +1,16 @@
+import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { Link } from "react-router-dom";
+import { getProfile } from "src/apis/user.api";
 import { path } from "src/utils/constants";
 
 export default function UserSideNav() {
+  const { data } = useQuery({
+    queryKey: ["profile"],
+    queryFn: getProfile
+  });
+  const userData = data?.data.data;
+  if (!userData) return;
   return (
     <>
       <div className="flex items-center py-4">
@@ -15,7 +23,7 @@ export default function UserSideNav() {
         </div>
         <div className="flex-grow pl-4">
           <div className="mb-2 font-extralight">Tài khoản của</div>
-          <div className="mb-1 truncate text-base font-semibold">abc</div>
+          <div className="mb-1 truncate text-base font-semibold">{userData.email}</div>
         </div>
       </div>
       <div className="mt-4">

@@ -2,7 +2,7 @@ import { User } from "src/types/user.type";
 import { SuccessResponse } from "src/types/utils.type";
 import http from "src/utils/http";
 
-export interface IBody extends Omit<User, "_id" | "roles" | "createAt" | "updateAt" | "date_of_birth"> {
+export interface IBody extends Omit<User, "_id" | "roles" | "createdAt" | "updatedAt" | "email"> {
   password?: string;
   newPassword?: string;
 }

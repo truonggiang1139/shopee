@@ -10,7 +10,7 @@ export default function Input({ type, errorMessage, placeholder, className, name
     <div className={className}>
       <input
         type={type}
-        className="w-full rounded-sm border border-gray-300 p-3 outline-none focus:border-gray-500 focus:shadow-sm"
+        className="w-full rounded-sm border border-gray-300 p-2 outline-none focus:border-gray-500 focus:shadow-sm"
         placeholder={placeholder}
         {...register(name)}
       />

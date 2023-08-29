@@ -47,7 +47,9 @@ export const userSchema = yup.object({
   phone: yup.string().max(20, "Độ dài tối đa là 20 ký tự"),
   address: yup.string().max(160, "Độ dài tối đa là 160 ký tự"),
   avatar: yup.string().max(1000, "Độ dài tối đa là 1000 ký tự"),
-  date_of_birth: yup.date().max(new Date(), "Hãy chọn một ngày trong quá khứ"),
+  date_of_birth: yup.date().max(new Date(), "Hãy chọn một ngày trong quá khứ")
+});
+export const changePasswordSchema = yup.object({
   password: schema.fields["password"],
   new_password: schema.fields["password"],
   confirm_password: handleConfirmPasswordYup("new_password")
@@ -61,3 +63,4 @@ export type RegisterSchema = yup.InferType<typeof registerSchema>;
 export type RangePriceSchema = yup.InferType<typeof rangePriceSchema>;
 export type SearchSchema = yup.InferType<typeof searchSchema>;
 export type UserSchema = yup.InferType<typeof userSchema>;
+export type ChangePasswordSchema = yup.InferType<typeof changePasswordSchema>;

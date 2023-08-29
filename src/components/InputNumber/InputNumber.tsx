@@ -1,10 +1,11 @@
 import React, { InputHTMLAttributes, forwardRef } from "react";
 export interface InputNumberProps extends InputHTMLAttributes<HTMLInputElement> {
   errorMessage?: string;
+  classNameInput?: string;
 }
 
 const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(function InputNumberInner(
-  { onChange, ...rest },
+  { errorMessage, classNameInput, onChange, ...rest },
   ref
 ) {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -15,12 +16,8 @@ const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(function Inpu
   };
   return (
     <div className="grow">
-      <input
-        className="w-full rounded-sm border border-gray-300 p-2 text-xs outline-none "
-        onChange={handleChange}
-        {...rest}
-        ref={ref}
-      />
+      <input className={classNameInput} onChange={handleChange} {...rest} ref={ref} />
+      <div className="mt-1 min-h-[1.25rem] text-sm text-red-600">{errorMessage}</div>
     </div>
   );
 });
