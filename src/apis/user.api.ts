@@ -4,7 +4,7 @@ import http from "src/utils/http";
 
 export interface IBody extends Omit<User, "_id" | "roles" | "createdAt" | "updatedAt" | "email"> {
   password?: string;
-  newPassword?: string;
+  new_password?: string;
 }
 export const getProfile = () => http.get<SuccessResponse<User>>("me");
 

@@ -50,8 +50,8 @@ export const userSchema = yup.object({
   date_of_birth: yup.date().max(new Date(), "Hãy chọn một ngày trong quá khứ")
 });
 export const changePasswordSchema = yup.object({
-  password: schema.fields["password"],
-  new_password: schema.fields["password"],
+  password: schema.fields["password"] as yup.StringSchema<string | undefined, yup.AnyObject, undefined, "">,
+  new_password: schema.fields["password"] as yup.StringSchema<string | undefined, yup.AnyObject, undefined, "">,
   confirm_password: handleConfirmPasswordYup("new_password")
 });
 export const loginSchema = schema.omit(["confirm_password", "price_max", "price_min"]);
