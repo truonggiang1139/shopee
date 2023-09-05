@@ -1,10 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
+import classNames from "classnames";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { getProfile } from "src/apis/user.api";
 import { path } from "src/utils/constants";
 
 export default function UserSideNav() {
+  const { pathname } = useLocation();
   const { data } = useQuery({
     queryKey: ["profile"],
     queryFn: getProfile
@@ -27,7 +29,12 @@ export default function UserSideNav() {
         </div>
       </div>
       <div className="mt-4">
-        <Link to={path.profile} className="flex items-center bg-navSelected px-2 py-2 capitalize hover:bg-navSelected">
+        <Link
+          to={path.profile}
+          className={classNames("flex items-center  px-2 py-2 capitalize hover:bg-navSelected ", {
+            "bg-navSelected": pathname === "/user/profile"
+          })}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -43,7 +50,12 @@ export default function UserSideNav() {
           Thông tin tài khoản
         </Link>
 
-        <Link to={path.changePassword} className="flex items-center  px-2 py-2 capitalize hover:bg-navSelected">
+        <Link
+          to={path.changePassword}
+          className={classNames("flex items-center  px-2 py-2 capitalize hover:bg-navSelected ", {
+            "bg-navSelected": pathname === "/user/user/password/edit"
+          })}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -59,7 +71,12 @@ export default function UserSideNav() {
           Đổi mật khẩu
         </Link>
 
-        <Link to={path.historyPurchase} className="flex items-center  px-2 py-2 capitalize hover:bg-navSelected">
+        <Link
+          to={path.historyPurchase}
+          className={classNames("flex items-center  px-2 py-2 capitalize hover:bg-navSelected ", {
+            "bg-navSelected": pathname === "/user/history/purchase"
+          })}
+        >
           <svg
             stroke="currentColor"
             fill="currentColor"

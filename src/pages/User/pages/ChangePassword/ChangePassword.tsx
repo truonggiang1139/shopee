@@ -33,12 +33,18 @@ export default function ChangePassword() {
       <div className="border-b border-b-gray-200 py-6">
         <h1 className="text-lg font-medium capitalize text-gray-900">Đổi mật khẩu</h1>
       </div>
-      <div className="mt-8 flex flex-col-reverse md:flex-row md:items-start ">
-        <form className="mt-6 flex-grow pr-12 md:mt-0 " onSubmit={onSubmit}>
+      <div className="mt-8 flex flex-col-reverse items-center justify-center md:flex-row md:items-start ">
+        <form className="mt-6 w-[70%] pr-12 text-sm md:mt-0" onSubmit={onSubmit}>
           <div className="mt-3 flex flex-col flex-wrap sm:flex-row">
             <div className="truncate pt-3 capitalize sm:w-[20%] sm:text-right">Mật khẩu hiện tại</div>
             <div className="sm:w-[80%] sm:pl-5 ">
-              <Input name="password" type="password" register={register} errorMessage={errors.password?.message} />
+              <Input
+                name="password"
+                type="password"
+                register={register}
+                errorMessage={errors.password?.message}
+                className="relative"
+              />
             </div>
           </div>
           <div className="mt-2 flex flex-col flex-wrap sm:flex-row">
@@ -49,6 +55,7 @@ export default function ChangePassword() {
                 type="password"
                 register={register}
                 errorMessage={errors.new_password?.message}
+                className="relative"
               />
             </div>
           </div>
@@ -60,6 +67,7 @@ export default function ChangePassword() {
                 type="password"
                 register={register}
                 errorMessage={errors.confirm_password?.message}
+                className="relative"
               />
             </div>
           </div>

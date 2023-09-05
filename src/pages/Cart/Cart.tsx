@@ -85,7 +85,9 @@ export default function Cart() {
   };
   const handleRemoveMultipleFromCart = () => {
     const itemRemove = checkedPurchases.map((purchase) => purchase._id);
-    deletePurchaseMutation.mutate(itemRemove);
+    if (itemRemove.length) {
+      deletePurchaseMutation.mutate(itemRemove);
+    }
   };
 
   const handleBuyPurchases = () => {
