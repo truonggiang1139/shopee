@@ -11,7 +11,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { omit } from "lodash";
 import { ObjectSchema } from "yup";
 import { getPurchases } from "src/apis/purchase.api";
-import { formatCurrency } from "src/utils/utils";
+import { formatCurrency, getAvatarURL } from "src/utils/utils";
 
 const MAX_PURCHASES = 5;
 export default function Header() {
@@ -100,7 +100,7 @@ export default function Header() {
               <>
                 <div className="ml-4 mr-1 h-6 w-6 flex-shrink-0">
                   <img
-                    src="https://img.freepik.com/free-photo/red-white-cat-i-white-studio_155003-13189.jpg?w=2000"
+                    src={getAvatarURL(data?.data.data.avatar)}
                     alt=""
                     className="h-full w-full rounded-full object-cover"
                   />

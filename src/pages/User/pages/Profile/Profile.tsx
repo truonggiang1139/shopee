@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { IBody, getProfile, updateProfile } from "src/apis/user.api";
+import { IBody, getProfile, updateProfile, uploadAvatar } from "src/apis/user.api";
 import { Controller, useForm } from "react-hook-form";
 import { UserSchema, userSchema } from "src/utils/rules";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -9,6 +9,7 @@ import Input from "src/components/Input";
 import { toast } from "react-toastify";
 import InputNumber from "src/components/InputNumber";
 import DateSelector from "../../components/DateSelector";
+import { getAvatarURL } from "src/utils/utils";
 export default function Profile() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [currentFile, setCurrentFile] = useState<File>();
@@ -22,6 +23,7 @@ export default function Profile() {
   const userMutation = useMutation({
     mutationFn: (body: IBody) => updateProfile(body)
   });
+  const avatarUploadMutation = useMutation(uploadAvatar);
   const userData = data?.data.data;
 
   const {
@@ -40,16 +42,23 @@ export default function Profile() {
     },
     resolver: yupResolver<UserSchema>(userSchema as ObjectSchema<UserSchema>)
   });
-  const onSubmit = handleSubmit((data) => {
-    userMutation.mutate(
-      { ...data, date_of_birth: data.date_of_birth?.toISOString() },
-      {
-        onSuccess: (data) => {
-          refetch();
-          toast.success(data.data.message);
-        }
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      let avatarName = userData?.avatar;
+      if (currentFile) {
+        const formData = new FormData();
+        formData.append("image", currentFile);
+        const res = await avatarUploadMutation.mutateAsync(formData);
+        avatarName = res.data.data;
+        setValue("avatar", avatarName);
       }
-    );
+      const userMutationData = { ...data, date_of_birth: data.date_of_birth?.toISOString(), avatar: avatarName };
+      const updatedUserData = await userMutation.mutateAsync(userMutationData);
+      refetch();
+      toast.success(updatedUserData.data.message);
+    } catch (error) {
+      toast.error(error as any);
+    }
   });
   const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentFile(event.target.files?.[0]);
@@ -143,7 +152,7 @@ export default function Profile() {
           <div className="flex flex-col items-center">
             <div className="my-5 h-24 w-24">
               <img
-                src="https://img.freepik.com/free-photo/red-white-cat-i-white-studio_155003-13189.jpg?w=2000"
+                src={previewImg || getAvatarURL(userData?.avatar)}
                 alt=""
                 className="h-full w-full rounded-full border-4 border-solid border-[#c2e1ff] object-cover"
               />

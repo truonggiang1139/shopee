@@ -4,6 +4,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { getProfile } from "src/apis/user.api";
 import { path } from "src/utils/constants";
+import { getAvatarURL } from "src/utils/utils";
 
 export default function UserSideNav() {
   const { pathname } = useLocation();
@@ -17,11 +18,7 @@ export default function UserSideNav() {
     <>
       <div className="flex items-center py-4">
         <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-full">
-          <img
-            src="https://img.freepik.com/free-photo/red-white-cat-i-white-studio_155003-13189.jpg?w=2000"
-            alt=""
-            className="h-full w-full object-cover"
-          />
+          <img src={getAvatarURL(userData?.avatar)} alt="" className="h-full w-full object-cover" />
         </div>
         <div className="flex-grow pl-4">
           <div className="mb-2 font-extralight">Tài khoản của</div>

@@ -38,3 +38,9 @@ export const getIdFromNameId = (nameId: string) => {
   const arr = nameId.split("-i-");
   return arr[arr.length - 1];
 };
+
+export const getAvatarURL = (avatarName?: string) => {
+  return avatarName
+    ? `https://api-ecom.duthanhduoc.com/images/${avatarName}`
+    : "https://img.freepik.com/free-photo/red-white-cat-i-white-studio_155003-13189.jpg?w=2000";
+};
