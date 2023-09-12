@@ -15,8 +15,6 @@ const handleConfirmPasswordYup = (refString: string) => {
     .max(160, "Độ dài từ 6 - 160 ký tự")
     .oneOf([yup.ref(refString)], "Nhập lại password không khớp");
 };
-const phoneRegExp =
-  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 export const schema = yup.object({
   email: yup
     .string()
