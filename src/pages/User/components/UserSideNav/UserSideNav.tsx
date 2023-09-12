@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames";
-import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { getProfile } from "src/apis/user.api";
 import { path } from "src/utils/constants";
@@ -20,7 +19,7 @@ export default function UserSideNav() {
         <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-full">
           <img src={getAvatarURL(userData?.avatar)} alt="" className="h-full w-full object-cover" />
         </div>
-        <div className="flex-grow pl-4">
+        <div className="flex-grow overflow-hidden  pl-4">
           <div className="mb-2 font-extralight">Tài khoản của</div>
           <div className="mb-1 truncate text-base font-semibold">{userData.email}</div>
         </div>
