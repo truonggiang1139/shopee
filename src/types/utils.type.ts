@@ -7,5 +7,5 @@ export interface SuccessResponse<Data> {
   data: Data;
 }
 export type NoUndefinedField<T> = {
-  [P in keyof T]-?: NoUndefinedField<NonNullable<T[P]>>;
+  [P in keyof T]-?: T[P];
 };

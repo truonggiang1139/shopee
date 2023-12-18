@@ -48,7 +48,7 @@ export const userSchema = yup.object({
   date_of_birth: yup.date().max(new Date(), "Hãy chọn một ngày trong quá khứ")
 });
 export const changePasswordSchema = yup.object({
-  password: schema.fields["password"] as yup.StringSchema<string | undefined, yup.AnyObject, undefined, "">,
+  password: schema.fields["password"] as yup.StringSchema<string, yup.AnyObject, undefined, "">,
   new_password: schema.fields["password"] as yup.StringSchema<string | undefined, yup.AnyObject, undefined, "">,
   confirm_password: handleConfirmPasswordYup("new_password")
 });

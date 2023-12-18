@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import InputNumber from "src/components/InputNumber";
 import DateSelector from "../../components/DateSelector";
 import { getAvatarURL } from "src/utils/utils";
+import { TextInput } from "@mantine/core";
 export default function Profile() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [currentFile, setCurrentFile] = useState<File>();
