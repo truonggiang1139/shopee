@@ -66,7 +66,7 @@ export default function AsideFilter({ queryConfig, categories }: Props) {
             </g>
           </g>
         </svg>
-        Tất cả danh mục
+        Tất cả danh mục11
       </Link>
       <div className="my-4 h-[1px] bg-gray-300"></div>
       <ul>
