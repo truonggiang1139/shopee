@@ -13,7 +13,7 @@ export default function Profilev2() {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email")
     }
   });
-  console.log("feat1");
+  console.log("feature1");
   return (
     <div>
       <form>
