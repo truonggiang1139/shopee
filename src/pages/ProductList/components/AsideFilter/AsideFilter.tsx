@@ -166,7 +166,7 @@ export default function AsideFilter({ queryConfig, categories }: Props) {
           </div>
           <div className="mt-1 min-h-[1.25rem] text-sm text-red-600">{errors.price_min?.message}</div>
           <CustomButton className="hover:bg-crimson-90 mt-4 flex w-full items-center justify-center bg-crimson p-2 text-sm uppercase text-white">
-            Áp dụng
+            Áp dụng222
           </CustomButton>
         </form>
       </div>
