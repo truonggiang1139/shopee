@@ -14,6 +14,7 @@ export default function Profilev2() {
     }
   });
   console.log("feat1");
+  console.log("feat2");
   return (
     <div>
       <form>
