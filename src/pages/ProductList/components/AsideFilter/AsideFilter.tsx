@@ -33,6 +33,8 @@ export default function AsideFilter({ queryConfig, categories }: Props) {
     shouldFocusError: false
   });
   console.log('c1');
+  console.log('c2');
+  
   
   const navigate = useNavigate();
   const onSubmit = handleSubmit((data) => {
