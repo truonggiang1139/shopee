@@ -32,6 +32,8 @@ export default function AsideFilter({ queryConfig, categories }: Props) {
     resolver: yupResolver<FormData>(rangePriceSchema as ObjectSchema<FormData>),
     shouldFocusError: false
   });
+  console.log('c1');
+  
   const navigate = useNavigate();
   const onSubmit = handleSubmit((data) => {
     navigate({
