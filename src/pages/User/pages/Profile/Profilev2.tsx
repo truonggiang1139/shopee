@@ -15,6 +15,10 @@ export default function Profilev2() {
   });
   console.log("feature1");
   console.log("feature2");
+  console.log('first');
+  console.log('second');
+  
+  
   return (
     <div>
       <form>
