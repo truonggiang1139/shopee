@@ -17,6 +17,7 @@ export default function Profilev2() {
   console.log("feature2");
   console.log("first");
   console.log("f1");
+  console.log("f2");
 
   return (
     <div>
